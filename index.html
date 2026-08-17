@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saurabh Hadole — ML Engineer</title>
+    <meta name="description"
+        content="Saurabh Hadole — ML Engineer building innovative machine learning solutions. Currently working on cutting-edge NLP research." />
+    <meta property="og:title" content="Saurabh Hadole — ML Engineer" />
+    <meta property="og:description" content="Building innovative machine learning solutions. Currently working on cutting-edge NLP research." />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@500;600&family=Anton&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- ===================== SCENE BACKDROP (day -> night on scroll) ===================== -->
+    <div class="scene" aria-hidden="true">
+        <div class="sky sky--day"><img class="scene-img" alt="" src="images/scene-sky-day.webp"
+                onerror="this.remove()" /></div>
+        <div class="sky sky--dusk"><img class="scene-img" alt="" src="images/scene-sky-dusk.webp"
+                onerror="this.remove()" /></div>
+        <div class="sky sky--night"><img class="scene-img" alt="" src="images/scene-sky-night.webp"
+                onerror="this.remove()" /></div>
+
+        <div class="stars">
+            <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+                <g fill="#eef2ff"></g>
+            </svg>
+        </div>
+
+        <div class="celestial">
+            <div class="sun"></div>
+            <div class="moon"></div>
+        </div>
+        <!-- soft moonlight glow that lights the sky around the moon -->
+        <div class="moon-glow"></div>
+        <!-- moonlight cast over the whole city (in front of the buildings) -->
+        <div class="moonlight"></div>
+
+        <!-- warm sunset glow band at the horizon (intensifies at dusk) -->
+        <div class="horizon"></div>
+
+        <!-- illustrated drifting clouds — volumetric, sunlit (original artwork) -->
+        <div class="clouds">
+            <img class="scene-img" alt="" src="images/scene-clouds.webp"
+                onload="this.closest('.clouds').classList.add('has-img')" onerror="this.remove()" />
+        </div>
+
+        <!-- birds — flit across the sky in the morning / evening, gone by night -->
+        <div class="birds" aria-hidden="true">
+            <div class="bird bird-1"><svg viewBox="0 0 40 16"><path d="M2 10 Q11 2 20 10 Q29 2 38 10" /></svg></div>
+            <div class="bird bird-2"><svg viewBox="0 0 40 16"><path d="M2 10 Q11 2 20 10 Q29 2 38 10" /></svg></div>
+            <div class="bird bird-3"><svg viewBox="0 0 40 16"><path d="M2 10 Q11 2 20 10 Q29 2 38 10" /></svg></div>
+        </div>
+
+        <!-- hills / mountains ridge (your generated anime layer) — rises before the
+             city so you get sky→clouds→hills→buildings depth as you scroll -->
+        <div class="hills">
+            <img class="scene-img" alt="" src="images/scene-hills.webp"
+                onload="this.closest('.hills').classList.add('has-img')" onerror="this.remove()" />
+        </div>
+
+        <!-- metro: empty viaduct (track) + a train that slides along it -->
+        <div class="metro">
+            <img class="scene-img metro-track" alt="" src="images/scene-metro-track.webp" onerror="this.remove()" />
+            <img class="metro-train" alt="" src="images/scene-metro-train.webp" onerror="this.remove()" />
+        </div>
+
+        <!-- you on the ledge (front-most foreground anchor): day + night, laptop
+             glows at night. Rises most as the closest layer. -->
+        <div class="figures">
+            <img class="scene-img fig-day" alt="" src="images/scene-figures-day.webp" onerror="this.remove()" />
+            <img class="scene-img fig-night" alt="" src="images/scene-figures-night.webp" onerror="this.remove()" />
+        </div>
+
+        <!-- clean anime skyline (your generated art): day base + night-lit overlay
+             (night image fades in on scroll → windows "turn on", like the reference) -->
+        <div class="city">
+            <img class="scene-img city-day" alt="" src="images/scene-city-day.webp" onerror="this.remove()" />
+            <img class="scene-img city-night" alt="" src="images/scene-city-night.webp" onerror="this.remove()" />
+            <!-- red aircraft warning lights (only glow at night — wrapper opacity = --lights-o) -->
+            <div class="city-lights-wrap">
+                <img class="scene-img city-lights cl-0" alt="" src="images/scene-city-lights-0.webp" onerror="this.remove()" />
+                <img class="scene-img city-lights cl-1" alt="" src="images/scene-city-lights-1.webp" onerror="this.remove()" />
+                <img class="scene-img city-lights cl-2" alt="" src="images/scene-city-lights-2.webp" onerror="this.remove()" />
+                <img class="scene-img city-lights cl-3" alt="" src="images/scene-city-lights-3.webp" onerror="this.remove()" />
+            </div>
+        </div>
+
+        <!-- warm evening/sunset wash (peaks mid-scroll, between day and night) -->
+        <div class="evening"></div>
+        <!-- night darkening + legibility scrim sit above the parallax layers -->
+        <div class="scene-night"></div>
+        <div class="scene-scrim"></div>
+        <!-- full-scene colour grade: warm pink/orange at dusk, cool blue at night,
+             applied OVER every layer so the whole palette reads cohesively -->
+        <div class="grade grade--eve"></div>
+        <div class="grade grade--glow"></div>
+        <div class="grade grade--night"></div>
+
+        <div class="scene-grain"></div>
+
+        <!-- SCENE TITLE: starts "Harman Manik", cross-fades to "Masters' Union"
+             as the buildings rise on scroll. Lives inside the scene (which sits
+             ABOVE the page content) so it's visible during the whole day→night. -->
+        <div class="scene-title" aria-hidden="true">
+            <div class="st-a">
+                <span class="st-name">Saurabh Hadole</span>
+                <span class="st-sub mono-bold">ML Engineer &amp;  · Chh Sambhaji Nagar</span>
+            </div>
+            <div class="st-b">
+                <span class="st-kicker mono">currently building out of</span>
+                <span class="st-name">Pune</span>
+                <span class="st-sub mono">India</span>
+            </div>
+        </div>
+    </div>
+
+    <main id="top">
+        <!-- ===================== HERO ===================== -->
+        <section class="hero">
+            <div class="hero-ghost" aria-hidden="true">Saurabh</div>
+            <h1 class="hero-display">
+                <span>Saurabh</span>
+                <span>Hadole</span>
+            </h1>
+            <p class="hero-tagline mono">ML Engineer &amp;· Pune</p>
+            <div class="hero-scroll" aria-hidden="true"><span></span></div>
+        </section>
+
+        <!-- scroll zone: the fixed scene plays day→night here before content -->
+        <div class="scene-gap" aria-hidden="true"></div>
+
+        <!-- ===================== ZOOM STATEMENT (scroll zooms into the text,
+             screen fills cream, then hands off to the light projects screen) -->
+        <section class="zoom-act" id="statement" aria-label="statement">
+            <div class="zoom-stage">
+                <h2 class="zoom-line">
+                    Here&rsquo;s what<br>I&rsquo;ve&nbsp;<em>built</em>.
+                </h2>
+                <div class="zoom-fill" aria-hidden="true"></div>
+            </div>
+        </section>
+
+        <!-- ===================== WORK ===================== -->
+        <section id="work" class="work light">
+            <div class="work-head reveal">
+                <p class="section-tag mono">Selected work</p>
+                <span class="work-count mono">03</span>
+            </div>
+
+            <div class="showcase">
+                <!-- feature (video) projects span full width -->
+                <article class="feat feat--wide reveal">
+                    <a class="feat-inner" href="https://github.com/Import-Saurabh/Financial-Rag" target="_blank" rel="noopener noreferrer">
+                        <div class="feat-media">
+                            <video autoplay muted loop playsinline preload="metadata">
+                                <source src="https://pub-715b2bac9ba84ceab36ad86ede2204ec.r2.dev/clippy-demo.mp4" type="video/mp4" />
+                            </video>
+                        </div>
+                        <div class="feat-info">
+                            <span class="feat-idx mono">01 <i class="feat-live" title="Active"></i></span>
+                            <h3 class="feat-name">Financial Rag</h3>
+                            <p class="feat-desc">An intelligent research co-pilot that automates daily financial data ingestion and query execution to deliver grounded numeric and qualitative equity insights.</p>
+                            <div class="feat-meta"><span class="feat-tags mono">Rag , Ai agents & ETL  · Generative AI</span><span class="feat-cta mono"> ↗</span></div>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="feat feat--wide reveal">
+                    <a class="feat-inner" href="https://github.com/Import-Saurabh/Gliner_Finetuning" target="_blank" rel="noopener noreferrer">
+                        <div class="feat-media">
+                            <video autoplay muted loop playsinline preload="metadata">
+                                <source src="https://pub-715b2bac9ba84ceab36ad86ede2204ec.r2.dev/extab-demo.mp4" type="video/mp4" />
+                            </video>
+                        </div>
+                        <div class="feat-info">
+                            <span class="feat-idx mono">02</span>
+                            <h3 class="feat-name">GLiner Fine-Tuining</h3>
+                            <p class="feat-desc">A specialized NER extraction model fine-tuned via LoRA PEFT on geopolitical and global news, automating precise entity discovery for market and risk intelligence.</p>
+                            <div class="feat-meta"><span class="feat-tags mono">Fine-Tuning · NLP</span><span class="feat-cta mono"> ↗</span></div>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="feat feat--wide reveal">
+                    <a class="feat-inner" href="" target="_blank" rel="noopener noreferrer">
+                        <div class="feat-media feat-media--cran">
+                            <img src="images/cover-cran.webp" alt="Cran" loading="lazy" onerror="this.remove()" />
+                        </div>
+                        <div class="feat-info">
+                            <span class="feat-idx mono">03 <i class="feat-live" title="Active"></i></span>
+                            <h3 class="feat-name">Focus Ai</h3>
+                            <p class="feat-desc">A computer vision pipeline that processes live video streams to track student attention in real time by analyzing facial landmarks, gaze direction, and posture dynamics.</p>
+                            <div class="feat-meta"><span class="feat-tags mono">Computer Vision · Real-time Processing</span><span class="feat-cta mono"> ↗</span></div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- ===================== ABOUT / TIMELINE ===================== -->
+        <section id="about" class="about light">
+            <div class="about-intro about-intro--noportrait reveal">
+                <div class="about-head">
+                    <p class="section-tag mono">./about</p>
+                    <h2 class="about-title">
+                        A student and building products that makes a
+                        <em>measurable</em> difference.
+                    </h2>
+                    <p class="about-loc mono">Pune, India · IST (UTC+5:30)</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="tl-col reveal">
+                    <h3 class="tl-h mono">Experience</h3>
+                    <div class="tl-item">
+                        <div class="tl-row"><span class="tl-role">ML Engineer intern</span><a class="tl-org"
+                                href="https://fincept.in" target="_blank" rel="noopener noreferrer">Tilak Industries ltd</a><span class="tl-now mono">now</span></div>
+                        <p class="tl-meta mono">June 2026 – Present · Remote Ahemdabad, Gujarat</p>
+                        <p class="tl-desc">Building production-grade knowledge graphs and geopolitical intelligence pipelines by &amp;
+                            fine-tuning GLiNER with LoRA PEFT for global news analysis, entity extraction, and financial decision-making.</p>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-row"><span class="tl-role">ML Engineer Intern</span><a class="tl-org"
+                                href="https://www.farmseasy.com" target="_blank" rel="noopener noreferrer">FarmsEasy Tech Solutions</a>
+                        </div>
+                        <p class="tl-meta mono">Sept 2025 - May 2026 · Chh Sambhaji Nagar</p>
+                        <p class="tl-desc">Engineering serverless, AI-driven agricultural solutions—from fine-tuned computer vision disease detection to WhatsApp-integrated RAG pipelines—to deliver real-time crop insights directly to farmers.</p>
+                    </div>
+                </div>
+
+                <div class="tl-col reveal">
+                    <h3 class="tl-h mono">Education</h3>
+                    <div class="tl-item">
+                        <div class="tl-row"><span class="tl-role">DBATU Lonere Raigad&rsquo;</span><span class="tl-now mono">now</span></div>
+                        <p class="tl-meta mono">2024–2027 · Chh Sambhaji Nagar</p>
+                        <p class="tl-desc">Undergraduate Programme in Data Science &amp; Artificial
+                            Intelligence.</p>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-row"><span class="tl-role">Maharashtra State Board of Technical Education, Mumbai</span></div>
+                        <p class="tl-meta mono">2021–2024 · Chh Sambhaji Nagar</p>
+                        <p class="tl-desc">High School Diploma in computer science &amp; where I learnt core principles of software engineering and computer science.</p>
+                    </div>
+
+                    <h3 class="tl-h mono tl-h--spaced">Learning now</h3>
+                    <ul class="tl-list">
+                        <li>Multi-agent systems &amp; LLM orchestration</li>
+                        <li>Advanced RAG with vector databases</li>
+                        <li>Computer vision &amp; real-time video</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="about-extra">
+                <div class="ax-col reveal">
+                    <h3 class="tl-h mono">Awards</h3>
+                    <ul class="tl-list">
+                        <li>Conrad Innovator Award — Top 45 of 20,000+, Aerospace &amp; Aviation</li>
+                        <li>National Case Competition Winner — NCSC &amp; IITK</li>
+                        <li>Shape The Future — 2nd (180+ teams, 1,300+ applicants)</li>
+                    </ul>
+                </div>
+                <div class="ax-col reveal">
+                    <h3 class="tl-h mono">Press &amp; mentions</h3>
+                    <ul class="tl-list tl-list--links">
+                        <li><a href="https://youtu.be/Pp0TxY8bASU?si=qWEtxf7rV_vVRowm" target="_blank"
+                                rel="noopener noreferrer">What First-Year Students Are Already Building in DS &amp; AI
+                                <span class="mono">— YouTube</span></a></li>
+                        <li><a href="https://www.linkedin.com/pulse/gen-zs-challenge-us-rise-occasion-left-behind-moonshotpirates/"
+                                target="_blank" rel="noopener noreferrer">Gen Z&rsquo;s Challenge: Rise to the Occasion
+                                <span class="mono">— Moonshot Pirates</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer light">
+        <div class="footer-grid">
+            <nav class="footer-nav">
+                <span class="mono footer-cap">Explore</span>
+                <a href="#top">Top</a>
+                <a href="#work">Work</a>
+                <a href="#about">About</a>
+            </nav>
+            <nav class="footer-nav">
+                <span class="mono footer-cap">Socials</span>
+                <a href="mailto:saurabhhadole50@gmail.com">Email</a>
+                <a href="https://www.linkedin.com/in/saurabh-hadole-b7454b284/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/Import-Saurabh" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://x.com/Saurabh_Hadole" target="_blank" rel="noopener noreferrer">X</a>
+            </nav>
+        </div>
+        <p class="footer-fine mono">© <span id="year"></span> Saurabh Hadole · software that carries your intent to done.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
