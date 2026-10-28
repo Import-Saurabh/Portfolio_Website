@@ -1730,6 +1730,36 @@ body.ready .scene-title { opacity: 1; transition-delay: 1.58s; }
     font-size: clamp(2.4rem, 6vw, 5rem); letter-spacing: -.02em; color: #f3eee2;
 }
 
+/* Knowledge Graph project card */
+.feat-media.feat-media--kg {
+    background:
+        radial-gradient(120% 130% at 20% 10%, rgba(57, 189, 143, .35), transparent 55%),
+        radial-gradient(120% 120% at 85% 90%, rgba(123, 108, 255, .28), transparent 55%),
+        linear-gradient(135deg, #0d1a2a 0%, #152238 100%);
+    display: grid; place-items: center;
+}
+.feat-media--kg img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+}
+
+/* Demo download button */
+.feat { position: relative; }
+.feat-demo-download {
+    position: absolute; bottom: 1rem; right: 1rem;
+    display: inline-flex; align-items: center; gap: .45rem;
+    padding: .5rem 1rem; border-radius: 10px;
+    background: rgba(24, 18, 32, .72); backdrop-filter: blur(8px);
+    color: var(--sun); border: 1px solid rgba(246, 166, 35, .28);
+    font-size: .72rem; letter-spacing: .06em; text-decoration: none;
+    opacity: 0; transform: translateY(6px);
+    transition: opacity .35s ease, transform .35s ease, background .25s ease;
+    z-index: 2;
+}
+.feat:hover .feat-demo-download { opacity: 1; transform: none; }
+.feat-demo-download:hover { background: rgba(246, 166, 35, .18); }
+.feat-demo-download svg { flex-shrink: 0; }
+
 /* SUN */
 .sun {
     display: block; position: absolute; z-index: 0;
