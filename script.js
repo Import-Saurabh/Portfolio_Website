@@ -172,7 +172,7 @@
     function scrollProgress() {
         // day→night completes ~1.4 screens in; then night holds while the whole
         // scene releases and travels up (see --scene-up in frame())
-        return clamp(window.scrollY / (window.innerHeight * 1.4));
+        return clamp(window.scrollY / (window.innerHeight * 2.2));
     }
 
     /* ---- pinned decks (scroll-sequenced pillars) + hero parallax ---- */
@@ -247,14 +247,14 @@
     let smoothY = window.pageYOffset || 0;
     function tick() {
         const realY = window.pageYOffset || 0;
-        smoothY += (realY - smoothY) * 0.12;                 // damping (lower = smoother/heavier)
-        if (Math.abs(realY - smoothY) < 0.08) smoothY = realY;
+        smoothY += (realY - smoothY) * 0.045;                // damping (lower = smoother/heavier)
+        if (Math.abs(realY - smoothY) < 0.05) smoothY = realY;
         const dy = realY - smoothY;                          // how far the eased value lags behind
-        if (!forcedNight) apply(clamp(smoothY / (window.innerHeight * 1.4)));
+        if (!forcedNight) apply(clamp(smoothY / (window.innerHeight * 2.2)));
         updateDecks();
         updateZoom(dy);
         heroParallax(smoothY);
-        const up = Math.max(0, smoothY - window.innerHeight * 1.8);
+        const up = Math.max(0, smoothY - window.innerHeight * 2.8);
         root.style.setProperty("--scene-up", up.toFixed(1));
         requestAnimationFrame(tick);
     }
